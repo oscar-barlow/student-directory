@@ -39,9 +39,16 @@ def print_header
 end
 
 def print(students)
-  students.each_with_index do |student, index|
-      puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)" if ("#{student[:name]}"[0] == "D") && (student[:name].length < 12)
+  # until the value returned by indexing the array is nil, print stuff
+  index_no = 0
+  until students[index_no] == nil
+    puts "#{index_no + 1}. #{students[index_no][:name]} (#{students[index_no][:cohort]} cohort)"
+    index_no +=1
   end
+
+  # students.each_with_index do |student, index|
+  #     puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)" if ("#{student[:name]}"[0] == "D") && (student[:name].length < 12)
+  # end
 end
 
 def print_footer(names)
