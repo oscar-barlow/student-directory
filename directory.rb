@@ -40,15 +40,16 @@ end
 
 # methods for printing student info
 def print_header
-  puts "The students of Villains Academy", "-------------"
-  # puts "-------------"
+  line_width = `/usr/bin/env tput cols`.to_i
+  puts "The students of Villains Academy".center(line_width), "-------------".center(line_width)
 end
 
 def print(students)
+  line_width = `/usr/bin/env tput cols`.to_i
   # until the value returned by indexing the array is nil, print stuff
   index_no = 0
   until students[index_no] == nil
-    puts "#{index_no + 1}. #{students[index_no][:name]} (#{students[index_no][:cohort]} cohort), from: #{students[index_no][:origin]}"
+    puts "#{index_no + 1}. #{students[index_no][:name]} (#{students[index_no][:cohort]} cohort), from: #{students[index_no][:origin]}".center line_width
     index_no +=1
   end
 
@@ -58,7 +59,8 @@ def print(students)
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  line_width = `/usr/bin/env tput cols`.to_i
+  puts "Overall, we have #{names.count} great students".center line_width
 end
 
 # nothing happens til we call the methods
