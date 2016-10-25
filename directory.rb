@@ -21,24 +21,21 @@ def input_students
   # get the first name
   name = gets.chomp
 
-  origin = ''
-  until !origin.empty?
-    puts "What's their country of origin?"
-    origin = gets.chomp
-  end
-
-  cohort = ''
-  until !cohort.empty?
-    puts "What cohort are their joining?"
+  if !name.empty?
+    puts "What cohort are they in?"
     cohort = gets.chomp
   end
-  # while the name is not empty, repeat this code
+
   while !name.empty? do
     # add the student hash to the array
-    students << {name: name, cohort: cohort.downcase.to_sym, origin: origin}
+    students << {name: name, cohort: cohort.downcase.to_sym}
     puts "Now we have #{students.count} students"
     # get another name from the user
     name = gets.chomp
+    if !name.empty?
+      puts "What cohort are they in?"
+      cohort = gets.chomp
+    end
   end
   # return the array of students
   students
@@ -55,7 +52,7 @@ def print(students)
   # until the value returned by indexing the array is nil, print stuff
   index_no = 0
   until students[index_no] == nil
-    puts "#{index_no + 1}. #{students[index_no][:name]} (#{students[index_no][:cohort]} cohort), from: #{students[index_no][:origin]}".center line_width
+    puts "#{index_no + 1}. #{students[index_no][:name]} (#{students[index_no][:cohort]} cohort)".center line_width
     index_no +=1
   end
 
@@ -66,7 +63,11 @@ end
 
 def print_footer(names)
   line_width = `/usr/bin/env tput cols`.to_i
-  puts "Overall, we have #{names.count} great students".center line_width
+  case names.count
+    when 0 then puts "We don't have any students".center line_width
+    when 1 then puts "We have 1 great student".center line_width
+    else puts "Overall, we have #{names.count} great students".center line_width
+  end
 end
 
 # nothing happens til we call the methods
