@@ -21,11 +21,17 @@ def input_students
   # get the first name
   name = gets.chomp
 
-  puts "What's their country of origin?"
-  origin = gets.chomp
+  origin = ''
+  until !origin.empty?
+    puts "What's their country of origin?"
+    origin = gets.chomp
+  end
 
-  puts "What cohort are their joining?"
-  cohort = gets.chomp
+  cohort = ''
+  until !cohort.empty?
+    puts "What cohort are their joining?"
+    cohort = gets.chomp
+  end
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
