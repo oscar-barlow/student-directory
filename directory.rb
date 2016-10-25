@@ -60,16 +60,17 @@ end
 
 def print(students)
   line_width = `/usr/bin/env tput cols`.to_i
-  # until the value returned by indexing the array is nil, print stuff
-  index_no = 0
-  until students[index_no] == nil
-    puts "#{index_no + 1}. #{students[index_no][:name]} (#{students[index_no][:cohort]} cohort)".center line_width
-    index_no +=1
+  cohorts = students.collect { |i| i[:cohort] }.uniq.sort
+
+  # find the items in the student array whose cohort: value matches c
+  # print them
+  cohorts.each do |c|
+    puts "#{c.capitalize} Cohort:"
+      students.each do |i|
+        puts i[:name] if (i[:cohort] == c)
+      end
   end
 
-  # students.each_with_index do |student, index|
-  #     puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)" if ("#{student[:name]}"[0] == "D") && (student[:name].length < 12)
-  # end
 end
 
 def print_footer(names)
