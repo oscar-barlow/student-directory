@@ -20,10 +20,16 @@ def input_students
   students = []
   # get the first name
   name = gets.chomp
+
+  puts "What's their country of origin?"
+  origin = gets.chomp
+
+  puts "What cohort are their joining?"
+  cohort = gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
-    students << {name: name, cohort: :november}
+    students << {name: name, cohort: cohort.downcase.to_sym, origin: origin}
     puts "Now we have #{students.count} students"
     # get another name from the user
     name = gets.chomp
@@ -42,7 +48,7 @@ def print(students)
   # until the value returned by indexing the array is nil, print stuff
   index_no = 0
   until students[index_no] == nil
-    puts "#{index_no + 1}. #{students[index_no][:name]} (#{students[index_no][:cohort]} cohort)"
+    puts "#{index_no + 1}. #{students[index_no][:name]} (#{students[index_no][:cohort]} cohort), from: #{students[index_no][:origin]}"
     index_no +=1
   end
 
