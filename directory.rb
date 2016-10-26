@@ -92,10 +92,14 @@ end
 
 def process(selection)
   case selection
-    when "1" then input_students
-    when "2" then show_students
-    when "3" then save_students
-    when "9" then exit
+    when "1"
+      input_students
+    when "2"
+      show_students
+    when "3"
+      save_students
+    when "9"
+      exit
     else
       "I don't know what you mean?"
     end
@@ -107,8 +111,6 @@ def show_students
   print_footer(@students)
 end
 
-# nothing happens til we call the methods
-interactive_menu
 
 # ------------------------ #
 #                          #
@@ -127,3 +129,5 @@ def save_students
   end
   file.close
 end
+
+interactive_menu
