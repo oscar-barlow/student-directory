@@ -1,23 +1,16 @@
-# # let's put all the students into an array of hashes
-# students = [
-#   {name: "Dr. Hannibal Lecter", cohort: :november},
-#   {name: "Darth Vader", cohort: :november},
-#   {name: "Nurse Ratched", cohort: :november},
-#   {name: "Michael Corleone", cohort: :november},
-#   {name: "Alex DeLarge", cohort: :november},
-#   {name: "The Wicked Witch of the West", cohort: :november},
-#   {name: "Terminator", cohort: :november},
-#   {name: "Freddy Krueger", cohort: :november},
-#   {name: "The Joker", cohort: :november},
-#   {name: "Joffrey Baratheon", cohort: :november},
-#   {name: "Norman Bates", cohort: :november},
-# ]
+@students = []
+
+# ------------------------ #
+#                          #
+# Methods for printing to  #
+# @students                #
+#                          #
+# ------------------------ #
 
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # create empty array
-  students = []
   months = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :august, :september, :october, :november, :december]
   # get the first name
   name = gets.chomp
@@ -34,8 +27,8 @@ def input_students
 
   while !name.empty? do
     # add the student hash to the array
-    students << {name: name, cohort: cohort}
-    puts "Now we have #{students.count} students"
+    @students << {name: name, cohort: cohort}
+    puts "Now we have #{@students.count} students"
     # get another name from the user
     name = gets.chomp
     if !name.empty?
@@ -48,18 +41,14 @@ def input_students
       end
     end
   end
-  # return the array of students
-  students
 end
 
 # methods for printing student info
 def print_header
-  line_width = `/usr/bin/env tput cols`.to_i
-  puts "The students of Villains Academy".center(line_width), "-------------".center(line_width)
+  puts "The students of Villains Academy", "-------------"
 end
 
 def print(students)
-  line_width = `/usr/bin/env tput cols`.to_i
   cohorts = students.collect { |i| i[:cohort] }.uniq.sort
 
   # find the items in the student array whose cohort: value matches c
@@ -74,27 +63,29 @@ def print(students)
 end
 
 def print_footer(names)
-  line_width = `/usr/bin/env tput cols`.to_i
   case names.count
-    when 0 then puts "We don't have any students".center line_width
-    when 1 then puts "We have 1 great student".center line_width
-    else puts "Overall, we have #{names.count} great students".center line_width
+    when 0 then puts "We don't have any students"
+    when 1 then puts "We have 1 great student"
+    else puts "Overall, we have #{names.count} great students"
   end
 end
 
+# ------------------------ #
+#                          #
+# Interactive Menu Methods #
+#                          #
+# ------------------------ #
+
 def interactive_menu
-  students = []
   loop do
     print_menu
     selection = gets.chomp
     # 3. do what the user has asked
     case selection
     when "1"
-      students = input_students
+      input_students
     when "2"
-      print_header
-      print(students)
-      print_footer(students)
+      show_students
     when "9"
       exit # this will cause the program to terminate
     else
@@ -110,6 +101,9 @@ def print_menu
 end
 
 def show_students
+  print_header
+  print(@students)
+  print_footer(@students)
 end
 
 # nothing happens til we call the methods
