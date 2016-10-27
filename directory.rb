@@ -10,19 +10,13 @@
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  # create empty array
-  months = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :august, :september, :october, :november, :december]
   # get the first name
   name = STDIN.gets.chomp
 
   if !name.empty?
     puts "What cohort are they in?"
     cohort = STDIN.gets.chomp.downcase
-    until months.include? cohort.to_sym
-      puts "I'm sorry, there seems to be a problem. What cohort are they in?"
-      puts "Please check the spelling carefully."
-      cohort = STDIN.gets.chomp.downcase
-    end
+    cohort = validate_cohort(cohort)
   end
 
   while !name.empty? do
@@ -34,13 +28,22 @@ def input_students
     if !name.empty?
       puts "What cohort are they in?"
       cohort = STDIN.gets.chomp.downcase
-      until months.include? cohort
-        puts "I'm sorry, there seems to be a problem. What cohort are they in?"
-        puts "Please check the spelling carefully."
-        cohort = STDIN.gets.chomp.downcase
-      end
+      cohort = validate_cohort(cohort)
     end
+    end
+end
+
+def validate_input(name)
+end
+
+def validate_cohort(cohort)
+  months = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :august, :september, :october, :november, :december]
+  until months.include? cohort.to_sym
+    puts "I'm sorry, there seems to be a problem. What cohort are they in?"
+    puts "Please check the spelling carefully."
+    cohort = STDIN.gets.chomp.downcase
   end
+  cohort
 end
 
 # methods for printing student info
@@ -50,9 +53,6 @@ end
 
 def print(students)
   cohorts = students.collect { |i| i[:cohort] }.uniq.sort
-
-  # find the items in the student array whose cohort: value matches c
-  # print them
   cohorts.each do |c|
     puts "*** #{c.capitalize} Cohort: ***"
       students.each do |i|
@@ -94,19 +94,13 @@ end
 
 def process(selection)
   case selection
-    when "1"
-      input_students
-    when "2"
-      show_students
-    when "3"
-      save_students
-    when "4"
-      load_students
-    when "9"
-      exit
-    else
-      "I don't know what you mean?"
-    end
+    when "1" then input_students
+    when "2" then show_students
+    when "3" then save_students
+    when "4" then load_students
+    when "9" then exit
+    else "I don't know what you mean?"
+  end
 end
 
 def show_students
@@ -150,7 +144,7 @@ end
 
 def try_load_students
   filename = ARGV.first
-  return if filename.nil?
+  filename = 'students.csv' if filename.nil?
   if File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} students from #{filename}"
