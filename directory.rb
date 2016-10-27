@@ -14,13 +14,15 @@ def input_students
   student_details = validate_student_details
 
   while !student_details.empty? do
+    count = 0
     name = student_details[0]
     cohort = student_details[1]
     students_shovel(name, cohort) # <--- this line!
-    puts "Now we have #{@students.count} students"
-    # get another name from the user
+    puts "Enter another student:"
     student_details = validate_student_details
+    count += 1
   end
+  puts "#{count} students input successfully"
 end
 
 def validate_student_details
@@ -99,7 +101,7 @@ def process(selection)
     when "2" then show_students
     when "3" then save_students
     when "4" then load_students
-    when "9" then exit
+    when "9" then script_exit
     else "I don't know what you mean?"
   end
 end
@@ -128,6 +130,7 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "#{@students.count} Students saved successfully."
 end
 
 def students_shovel(name, cohort)
@@ -141,6 +144,7 @@ def load_students(filename = 'students.csv')
     students_shovel(name, cohort)
   end
   file.close
+  puts "#{@students.count} Students loaded successfully."
 end
 
 def try_load_students
@@ -151,8 +155,13 @@ def try_load_students
     puts "Loaded #{@students.count} students from #{filename}"
   else
     puts "Sorry, #{filename} doesn't exist."
-    exit
+    script_exit
   end
+end
+
+def script_exit
+  puts "Exiting"
+  exit
 end
 
 try_load_students
