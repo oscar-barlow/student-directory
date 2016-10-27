@@ -90,8 +90,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load students from students.csv"
+  puts "3. Save the list to a file"
+  puts "4. Load students from a file"
   puts "9. Exit"
 end
 
@@ -120,9 +120,14 @@ end
 #                          #
 # ------------------------ #
 
+def get_file
+  puts "What file?"
+  user_file = STDIN.gets.chomp
+  user_file
+end
+
 def save_students
-  # open file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(get_file, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -130,14 +135,15 @@ def save_students
     file.puts csv_line
   end
   file.close
-  puts "#{@students.count} Students saved successfully."
+  puts "#{@students.count} Students saved successfully.", ''
 end
 
 def students_shovel(name, cohort)
   @students << {name: name, cohort: cohort.to_sym}
 end
 
-def load_students(filename = 'students.csv')
+def load_students(filename = get_file)
+  @students = [] # empty current students from @students variable
   file = File.open(filename, 'r')
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
@@ -149,13 +155,16 @@ end
 
 def try_load_students
   filename = ARGV.first
-  filename = 'students.csv' if filename.nil?
-  if File.exists?(filename)
-    load_students(filename)
-    puts "Loaded #{@students.count} students from #{filename}"
+  if filename.nil?
+    puts "No students loaded from file"
   else
-    puts "Sorry, #{filename} doesn't exist."
-    script_exit
+    if File.exists?(filename)
+      load_students(filename)
+      puts "Loaded #{@students.count} students from #{filename}"
+    else
+      puts "Sorry, #{filename} doesn't exist."
+      script_exit
+    end
   end
 end
 
