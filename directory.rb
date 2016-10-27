@@ -17,27 +17,27 @@ def input_students
 
   if !name.empty?
     puts "What cohort are they in?"
-    cohort = STDIN.gets.chomp.downcase.to_sym
-    until months.include? cohort
+    cohort = STDIN.gets.chomp.downcase
+    until months.include? cohort.to_sym
       puts "I'm sorry, there seems to be a problem. What cohort are they in?"
       puts "Please check the spelling carefully."
-      cohort = STDIN.gets.chomp.downcase.to_sym
+      cohort = STDIN.gets.chomp.downcase
     end
   end
 
   while !name.empty? do
     # add the student hash to the array
-    @students << {name: name, cohort: cohort}
+    students_shovel(name, cohort) # <--- this line!
     puts "Now we have #{@students.count} students"
     # get another name from the user
     name = STDIN.gets.chomp
     if !name.empty?
       puts "What cohort are they in?"
-      cohort = STDIN.gets.chomp.downcase.to_sym
+      cohort = STDIN.gets.chomp.downcase
       until months.include? cohort
         puts "I'm sorry, there seems to be a problem. What cohort are they in?"
         puts "Please check the spelling carefully."
-        cohort = STDIN.gets.chomp.downcase.to_sym
+        cohort = STDIN.gets.chomp.downcase
       end
     end
   end
@@ -135,11 +135,15 @@ def save_students
   file.close
 end
 
+def students_shovel(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
+end
+
 def load_students(filename = 'students.csv')
   file = File.open(filename, 'r')
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
-    @students <<{name: name, cohort: cohort.to_sym}
+    students_shovel(name, cohort)
   end
   file.close
 end
