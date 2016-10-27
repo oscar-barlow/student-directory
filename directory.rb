@@ -127,14 +127,13 @@ def get_file
 end
 
 def save_students
-  file = File.open(get_file, "w")
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(get_file, "w") do |file|
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
   puts "#{@students.count} Students saved successfully.", ''
 end
 
@@ -144,12 +143,12 @@ end
 
 def load_students(filename = get_file)
   @students = [] # empty current students from @students variable
-  file = File.open(filename, 'r')
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
-    students_shovel(name, cohort)
+  File.open(filename, 'r') do |file|
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(",")
+      students_shovel(name, cohort)
+    end
   end
-  file.close
   puts "#{@students.count} Students loaded successfully."
 end
 
