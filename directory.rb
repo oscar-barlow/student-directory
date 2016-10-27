@@ -11,30 +11,31 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # get the first name
-  name = STDIN.gets.chomp
+  student_details = validate_student_details
 
-  if !name.empty?
-    puts "What cohort are they in?"
-    cohort = STDIN.gets.chomp.downcase
-    cohort = validate_cohort(cohort)
-  end
-
-  while !name.empty? do
-    # add the student hash to the array
+  while !student_details.empty? do
+    name = student_details[0]
+    cohort = student_details[1]
     students_shovel(name, cohort) # <--- this line!
     puts "Now we have #{@students.count} students"
     # get another name from the user
-    name = STDIN.gets.chomp
-    if !name.empty?
-      puts "What cohort are they in?"
-      cohort = STDIN.gets.chomp.downcase
-      cohort = validate_cohort(cohort)
-    end
-    end
+    student_details = validate_student_details
+  end
 end
 
-def validate_input(name)
+def validate_student_details
+  name = STDIN.gets.chomp
+  student_details = Array.new
+  if !name.empty?
+    student_details << name
+    puts "What cohort are they in?"
+    cohort = STDIN.gets.chomp.downcase
+    cohort = validate_cohort(cohort)
+    student_details << cohort
+  end
+  student_details
 end
+
 
 def validate_cohort(cohort)
   months = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :august, :september, :october, :november, :december]
