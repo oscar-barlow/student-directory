@@ -1,3 +1,4 @@
+require 'CSV'
 @students = []
 
 # ------------------------ #
@@ -127,14 +128,12 @@ def get_file
 end
 
 def save_students
-  File.open(get_file, "w") do |file|
+  CSV.open("./#{get_file}", "wb") do |csv|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      csv << [student[:name], student[:cohort]]
     end
   end
-  puts "#{@students.count} Students saved successfully.", ''
+  puts "#{@students.count} students saved to file.", ''
 end
 
 def students_shovel(name, cohort)
@@ -143,13 +142,10 @@ end
 
 def load_students(filename = get_file)
   @students = [] # empty current students from @students variable
-  File.open(filename, 'r') do |file|
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(",")
-      students_shovel(name, cohort)
-    end
+  CSV.foreach("./#{filename}") do |row|
+    name, cohort = row[0], row[1]
+    students_shovel(name, cohort)
   end
-  puts "#{@students.count} Students loaded successfully."
 end
 
 def try_load_students
